@@ -1,0 +1,26 @@
+% Define facts for teacher, subject, and student relationships
+teacher_subject(john, math).
+teacher_subject(lisa, english).
+teacher_subject(alex, physics).
+
+student_subject(alice, math).
+student_subject(bob, english).
+student_subject(charlie, physics).
+student_subject(alice, english).
+student_subject(bob, math).
+
+% Define rules to query relationships
+teaches_subject(Teacher, Subject) :-
+    teacher_subject(Teacher, Subject).
+
+student_teachers_subject(Student, Subject) :-
+    student_subject(Student, Subject),
+    teacher_subject(Teacher, Subject).
+
+% Query to retrieve the subjects taught by a specific teacher
+subjects_taught_by(Teacher, Subjects) :-
+    setof(Subject, teacher_subject(Teacher, Subject), Subjects).
+
+% Query to retrieve the students taught by a specific teacher for a given subject
+students_taught_by_for_subject(Teacher, Subject, Students) :-
+    setof(Student, (student_subject(Student, Subject), teacher_subject(Teacher, Subject)), Students).

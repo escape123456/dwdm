@@ -1,0 +1,27 @@
+% Define symptoms for different diseases
+symptom(fever, flu).
+symptom(cough, flu).
+symptom(runny_nose, flu).
+symptom(rash, measles).
+symptom(fever, measles).
+symptom(red_eyes, measles).
+symptom(cough, cold).
+symptom(sneezing, cold).
+symptom(sore_throat, cold).
+
+% Define rules for diagnosing diseases based on symptoms
+diagnosis(Disease, Symptoms) :-
+    findall(Symptom, (member(Symptom, Symptoms), symptom(Symptom, Disease)), MatchedSymptoms),
+    length(MatchedSymptoms, NumMatched),
+    findall(Symptom, symptom(Symptom, Disease), AllSymptoms),
+    length(AllSymptoms, NumAll),
+    NumMatched == NumAll.
+
+% Query examples
+% Diagnose flu based on symptoms fever, cough, and runny nose
+% ?- diagnosis(flu, [fever, cough, runny_nose]).
+% Output: true
+
+% Diagnose cold based on symptoms cough and runny nose
+% ?- diagnosis(cold, [cough, runny_nose]).
+% Output: false (because cold requires sore throat symptom)

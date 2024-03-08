@@ -1,0 +1,26 @@
+% Define facts for bird and flying ability
+bird(crow, yes).
+bird(penguin, no).
+bird(sparrow, yes).
+bird(ostrich, no).
+
+% Query to determine if a bird can fly
+can_fly(Bird) :-
+    bird(Bird, yes),
+    write(Bird),
+    write(' can fly.'),
+    nl.
+can_fly(Bird) :-
+    bird(Bird, no),
+    write(Bird),
+    write(' cannot fly.'),
+    nl.
+
+% Query examples
+% Check if crow can fly
+% ?- can_fly(crow).
+% Output: crow can fly.
+
+% Check if penguin can fly
+% ?- can_fly(penguin).
+% Output: penguin cannot fly.

@@ -1,0 +1,17 @@
+% Define the predicate hanoi/3 to solve the Towers of Hanoi problem
+hanoi(1, A, _, C) :-
+    write('Move top disk from '),
+    write(A),
+    write(' to '),
+    write(C),
+    nl.
+hanoi(N, A, B, C) :-
+    N > 1,
+    M is N - 1,
+    hanoi(M, A, C, B),
+    hanoi(1, A, _, C),
+    hanoi(M, B, A, C).
+
+% Define a predicate to start the Towers of Hanoi problem with 3 disks
+start :-
+    hanoi(3, left, center, right).

@@ -1,0 +1,13 @@
+% Define facts for name and date of birth
+dob(john, '1990-05-15').
+dob(lisa, '1985-10-25').
+dob(mary, '1978-03-12').
+
+% Query to retrieve the date of birth for a given name
+get_dob(Name, DOB) :-
+    dob(Name, DOB).
+
+% Query to retrieve the names of individuals born after a given date
+born_after(Date, Name) :-
+    dob(Name, DOB),
+    DOB @> Date.

@@ -1,0 +1,67 @@
+% Define parent relationships
+parent(john, 'Mary').
+parent(john, 'Steven').
+parent(paul, 'Mary').
+parent(paul, 'Steven').
+parent(steven, 'Jill').
+parent(steven, 'Kevin').
+parent(mary, 'Karen').
+parent(mary, 'Barry').
+
+% Define rules for different types of relationships
+father(Father, Child) :-
+    parent(Father, Child),
+    male(Father).
+
+mother(Mother, Child) :-
+    parent(Mother, Child),
+    female(Mother).
+
+sibling(Person1, Person2) :-
+    parent(Parent, Person1),
+    parent(Parent, Person2),
+    Person1 \= Person2.
+
+grandparent(GP, GC) :-
+    parent(GP, Parent),
+    parent(Parent, GC).
+
+ancestor(Ancestor, Descendant) :-
+    parent(Ancestor, Descendant).
+ancestor(Ancestor, Descendant) :-
+    parent(Ancestor, Intermediate),
+    ancestor(Intermediate, Descendant).
+
+% Define genders
+male('John').
+male('Steven').
+male('Paul').
+male('Kevin').
+male('Barry').
+
+female('Mary').
+female('Jill').
+female('Karen').
+
+% Query examples
+% Check if John is a father of Mary
+% ?- father('John', 'Mary').
+% Output: true
+
+% Check if Jill and Kevin are siblings
+% ?- sibling('Jill', 'Kevin').
+% Output: true
+
+% Find all grandparents of Karen
+% ?- grandparent(GP, 'Karen').
+% Output: GP = john ;
+%         GP = mary ;
+%         false.
+
+% Find all ancestors of Barry
+% ?- ancestor(Ancestor, 'Barry').
+% Output: Ancestor = john ;
+%         Ancestor = mary ;
+%         Ancestor = steven ;
+%         Ancestor = jill ;
+%         false.

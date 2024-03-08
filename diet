@@ -1,0 +1,18 @@
+% Define rules for suggesting diet based on disease
+suggest_diet(Disease, Diet) :-
+    disease_diet(Disease, Diet).
+
+% Define facts for disease-specific diets
+disease_diet(diabetes, 'Low-carb, high-fiber diet').
+disease_diet(hypertension, 'Low-sodium diet').
+disease_diet(obesity, 'Low-calorie, balanced diet').
+disease_diet(high_cholesterol, 'Low-cholesterol diet').
+
+% Query examples
+% Suggest a diet for diabetes
+% ?- suggest_diet(diabetes, Diet).
+% Output: Diet = 'Low-carb, high-fiber diet'
+
+% Suggest a diet for hypertension
+% ?- suggest_diet(hypertension, Diet).
+% Output: Diet = 'Low-sodium diet'

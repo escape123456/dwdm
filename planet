@@ -1,0 +1,24 @@
+% Define facts for planet properties
+planet(mercury, 0.39, 0.24).
+planet(venus, 0.72, 0.62).
+planet(earth, 1, 1).
+planet(mars, 1.52, 0.11).
+planet(jupiter, 5.2, 317.8).
+planet(saturn, 9.58, 95.2).
+planet(uranus, 19.22, 14.6).
+planet(neptune, 30.05, 17.2).
+
+% Define rules for querying planet properties
+distance_from_sun(Planet, Distance) :-
+    planet(Planet, Distance, _).
+
+mass(Planet, Mass) :-
+    planet(Planet, _, Mass).
+
+% Query to retrieve the planets with a distance from the sun greater than a given value
+planets_farther_than(Distance, Planets) :-
+    setof(Planet, (planet(Planet, Dist, _), Dist > Distance), Planets).
+
+% Query to retrieve the planets with a mass less than a given value
+planets_lighter_than(Mass, Planets) :-
+    setof(Planet, (planet(Planet, _, M), M < Mass), Planets).

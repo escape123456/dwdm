@@ -1,0 +1,62 @@
+% Define the heuristic function (h-values) for each state
+h(state(A, B, C), H) :- H is abs(4-A) + abs(3-B) + abs(2-C).
+
+% Define the goal state
+goal(state(4, 3, 2)).
+
+% Define moves (operators) allowed from one state to another
+move(state(A, B, C), pour(A, B, 1), state(NA, NB, C)) :-
+    B < 3,
+    NB is min(B+1, 3),
+    NA is A - (NB - B).
+move(state(A, B, C), pour(A, C, 2), state(NA, B, NC)) :-
+    C < 2,
+    NC is min(C+2, 2),
+    NA is A - (NC - C).
+move(state(A, B, C), pour(B, A, 1), state(NA, NB, C)) :-
+    A < 4,
+    NA is min(A+1, 4),
+    NB is B - (NA - A).
+move(state(A, B, C), pour(B, C, 2), state(A, NB, NC)) :-
+    C < 2,
+    NC is min(C+2, 2),
+    NB is B - (NC - C).
+move(state(A, B, C), pour(C, A, 1), state(NA, B, NC)) :-
+    A < 4,
+    NA is min(A+1, 4),
+    NC is C - (NA - A).
+move(state(A, B, C), pour(C, B, 2), state(A, NA, NC)) :-
+    B < 3,
+    NB is min(B+1, 3),
+    NC is C - (NB - B).
+
+% Define best_first_search using priority queue
+best_first_search(Node, Path) :-
+    best_first_search([[Node, []]], [], Path).
+
+best_first_search([[Node, Path]|_], _, Path) :-
+    goal(Node).
+best_first_search([[Node, Path]|Rest], Visited, FinalPath) :-
+    findall([NewNode, [Move|Path]],
+            (move(Node, Move, NewNode),
+             \+ member(NewNode, Visited)),
+            NewNodes),
+    add_to_queue(NewNodes, Rest, Queue),
+    best_first_search(Queue, [Node|Visited], FinalPath).
+
+add_to_queue([], Queue, Queue).
+add_to_queue([Node|Rest], Queue, NewQueue) :-
+    add_to_queue(Rest, Queue, TempQueue),
+    insert(Node, TempQueue, NewQueue).
+
+insert(Node, [], [Node]).
+insert([Node1, Path1], [[Node2, Path2]|Rest], [[Node1, Path1]|NewRest]) :-
+    h(Node1, H1),
+    h(Node2, H2),
+    H1 =< H2,
+    insert([Node2, Path2], Rest, NewRest).
+insert(Node, [[Node2, Path2]|Rest], [[Node2, Path2]|NewRest]) :-
+    insert(Node, Rest, NewRest).
+
+% Example query
+% ?- best_first_search(state(0, 0, 0), Path).

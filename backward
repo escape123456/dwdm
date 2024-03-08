@@ -1,0 +1,32 @@
+% Define facts and rules
+likes(john, pizza).
+likes(mary, sushi).
+likes(john, burgers).
+likes(sarah, sushi).
+
+% Define rules for recommending food based on likes
+recommends(Person, Food) :-
+    likes(Person, Food),
+    write(Person), write(' likes '), write(Food), nl.
+
+% Define a rule for recommending food based on friends' likes
+recommends(Person, Food) :-
+    likes(Friend, Food),
+    likes(Person, Friend),
+    write(Person), write(' likes '), write(Food), write(' because their friend '), write(Friend), write(' likes it'), nl.
+
+% Define backward chaining rule for recommending food to a person
+recommends_to(Person, Food) :-
+    likes(Person, Food),
+    write('Recommendation for '), write(Person), write(': '), write(Food), nl.
+recommends_to(Person, Food) :-
+    likes(Friend, Food),
+    likes(Person, Friend),
+    write('Recommendation for '), write(Person), write(': '), write(Food), write(' because their friend '), write(Friend), write(' likes it'), nl.
+
+% Example queries
+% Query 1: Recommend food to John
+% recommends_to(john, Food).
+
+% Query 2: Recommend food to Mary
+% recommends_to(mary, Food).
